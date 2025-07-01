@@ -68,3 +68,33 @@ MIT License - See [LICENSE](LICENSE) for details
 **Join us in building the future of AI-powered development!**
 
 🌟 Star us on GitHub | 🐛 Report Issues | 💡 Contribute
+## 🚀 Building CmdShift IDE
+
+### Prerequisites
+- Node.js 18.17.1 (use nvm)
+- Yarn package manager
+
+### Build Steps
+```bash
+# Clone the repository
+git clone https://github.com/pranit2510/cmdshift-IDE.git
+cd cmdshift-IDE
+
+# Install correct Node version
+nvm install 18.17.1
+nvm use 18.17.1
+
+# Install dependencies
+yarn
+
+# Compile
+yarn compile
+
+# Run CmdShift IDE
+./scripts/code.sh
+```
+
+### Known Issues
+- First compile might show linting warnings (safe to ignore)
+- Clear settings: rm -rf ~/Library/Application\ Support/code-oss-dev
+
