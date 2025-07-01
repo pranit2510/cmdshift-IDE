@@ -1,9 +1,10 @@
 {
-  "name": "code-oss-dev",
+  "name": "cmdshift-ide",
   "version": "1.85.0",
+  "productName": "CmdShift IDE",
   "distro": "5f8805862a2917cf9adde714616dc196235a7014",
   "author": {
-    "name": "Microsoft Corporation"
+    "name": "CmdShift Team"
   },
   "license": "MIT",
   "main": "./out/main",
@@ -220,10 +221,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/vscode.git"
+    "url": "https://github.com/cmdshift/cmdshift-ide.git"
   },
   "bugs": {
-    "url": "https://github.com/microsoft/vscode/issues"
+    "url": "https://github.com/cmdshift/cmdshift-ide/issues"
   },
   "optionalDependencies": {
     "windows-foreground-love": "0.5.0"

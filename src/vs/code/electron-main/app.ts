@@ -554,6 +554,12 @@ export class CodeApplication extends Disposable {
 			app.setAppUserModelId(win32AppUserModelId);
 		}
 
+		// Set application icon for macOS dock
+		if (isMacintosh && app.dock) {
+			const iconPath = join(this.environmentMainService.appRoot, 'resources/linux/code.png');
+			app.dock.setIcon(iconPath);
+		}
+
 		// Fix native tabs on macOS 10.13
 		// macOS enables a compatibility patch for any bundle ID beginning with
 		// "com.microsoft.", which breaks native tabs for VS Code when using this

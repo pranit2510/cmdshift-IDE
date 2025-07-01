@@ -185,6 +185,9 @@ import 'vs/workbench/contrib/speech/common/speech.contribution';
 import 'vs/workbench/contrib/chat/browser/chat.contribution';
 import 'vs/workbench/contrib/inlineChat/browser/inlineChat.contribution';
 
+// CmdShift IDE
+import 'vs/workbench/contrib/cmdshift/browser/cmdshift.contribution';
+
 // Interactive
 import 'vs/workbench/contrib/interactive/browser/interactive.contribution';
 

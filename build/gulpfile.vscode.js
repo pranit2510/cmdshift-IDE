@@ -38,6 +38,17 @@ const glob = promisify(require('glob'));
 const rcedit = promisify(require('rcedit'));
 
 // Build
+
+// TODO: Add icon conversion tasks here
+// Convert PNG source files to platform-specific formats:
+// - cmdshift.png (1024x1024) → cmdshift.ico (Windows)
+// - cmdshift.png (1024x1024) → cmdshift.icns (macOS)
+// Example implementation:
+// gulp.task('convert-icons', () => {
+//   // Use png2ico for Windows: png2ico cmdshift.ico cmdshift.png
+//   // Use iconutil for macOS: iconutil -c icns cmdshift.iconset
+// });
+
 const vscodeEntryPoints = [
 	buildfile.entrypoint('vs/workbench/workbench.desktop.main'),
 	buildfile.base,
@@ -323,11 +334,11 @@ function packageTask(platform, arch, sourceFolderName, destinationFolderName, op
 				'resources/win32/vue.ico',
 				'resources/win32/xml.ico',
 				'resources/win32/yaml.ico',
-				'resources/win32/code_70x70.png',
-				'resources/win32/code_150x150.png'
+				'resources/win32/cmdshift_70x70.png',
+				'resources/win32/cmdshift_150x150.png'
 			], { base: '.' }));
 		} else if (platform === 'linux') {
-			all = es.merge(all, gulp.src('resources/linux/code.png', { base: '.' }));
+			all = es.merge(all, gulp.src('resources/linux/cmdshift.png', { base: '.' }));
 		} else if (platform === 'darwin') {
 			const shortcut = gulp.src('resources/darwin/bin/code.sh')
 				.pipe(replace('@@APPNAME@@', product.applicationName))

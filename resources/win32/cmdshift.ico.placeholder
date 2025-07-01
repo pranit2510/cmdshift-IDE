@@ -1,0 +1,17 @@
+CmdShift IDE Logo Placeholder
+=============================
+
+This file should be replaced with the actual CmdShift IDE logo in .ico format.
+
+Requirements:
+- Format: Windows Icon (.ico)
+- Recommended sizes: 16x16, 32x32, 48x48, 256x256 pixels (all in one .ico file)
+- Should contain multiple resolutions for different display contexts
+- Design should represent CmdShift IDE brand
+
+To create an .ico file:
+1. Create PNG images at each size with your logo
+2. Use an ico converter tool to combine them into a single .ico file
+3. Replace this placeholder file with cmdshift.ico
+
+Current file using default logo: code.ico
