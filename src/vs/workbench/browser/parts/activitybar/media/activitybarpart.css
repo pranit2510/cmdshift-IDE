@@ -3,6 +3,20 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/*
+ * TODO: CmdShift - CSS for horizontal activity bar layout
+ * When implementing horizontal layout:
+ * 1. Add .activitybar.horizontal class styles:
+ *    - width: 100%
+ *    - height: 48px
+ * 2. Update flex-direction for horizontal flow
+ * 3. Adjust action item positioning
+ * 4. Update border styles for top/bottom positioning
+ * 5. Consider CSS variables for dimensions:
+ *    --activity-bar-vertical-width: 48px
+ *    --activity-bar-horizontal-height: 48px
+ */
+
 .monaco-workbench .part.activitybar {
 	width: 48px;
 	height: 100%;
@@ -36,6 +50,14 @@
 	flex-direction: column;
 	justify-content: space-between;
 }
+
+/* TODO: CmdShift - Horizontal layout content styles
+.monaco-workbench .activitybar.horizontal > .content {
+	width: 100%;
+	height: 100%;
+	flex-direction: row;
+}
+*/
 
 /** Viewlet Switcher */
 

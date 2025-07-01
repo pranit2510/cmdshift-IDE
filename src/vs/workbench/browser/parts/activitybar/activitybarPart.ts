@@ -49,6 +49,13 @@ export class ActivitybarPart extends Part {
 
 	//#region IView
 
+	/*
+	 * CMDSHIFT HORIZONTAL LAYOUT TODO:
+	 * These dimensions are for vertical activity bar layout.
+	 * For horizontal layout, we'll need:
+	 * - minimumWidth: 0, maximumWidth: Number.POSITIVE_INFINITY
+	 * - minimumHeight: 48, maximumHeight: 48
+	 */
 	readonly minimumWidth: number = 48;
 	readonly maximumWidth: number = 48;
 	readonly minimumHeight: number = 0;
@@ -70,16 +77,25 @@ export class ActivitybarPart extends Part {
 	}
 
 	private createCompositeBar(): PaneCompositeBar {
+		/*
+		 * CMDSHIFT HORIZONTAL LAYOUT TODO:
+		 * This is where we'll implement horizontal activity bar positioning.
+		 * Key changes needed:
+		 * 1. Add logic to switch orientation between VERTICAL and HORIZONTAL
+		 * 2. Update hover position calculation for horizontal layout
+		 * 3. Adjust icon sizes and spacing for horizontal presentation
+		 * 4. Handle overflow menu positioning for horizontal bar
+		 */
 		return this.instantiationService.createInstance(ActivityBarCompositeBar, {
 			partContainerClass: 'activitybar',
 			pinnedViewContainersKey: ActivitybarPart.pinnedViewContainersKey,
 			placeholderViewContainersKey: ActivitybarPart.placeholderViewContainersKey,
 			viewContainersWorkspaceStateKey: ActivitybarPart.viewContainersWorkspaceStateKey,
-			orientation: ActionsOrientation.VERTICAL,
+			orientation: ActionsOrientation.VERTICAL, // TODO: Make this configurable for horizontal layout
 			icon: true,
-			iconSize: 24,
+			iconSize: 24, // TODO: Adjust icon size for horizontal layout
 			activityHoverOptions: {
-				position: () => this.layoutService.getSideBarPosition() === Position.LEFT ? HoverPosition.RIGHT : HoverPosition.LEFT,
+				position: () => this.layoutService.getSideBarPosition() === Position.LEFT ? HoverPosition.RIGHT : HoverPosition.LEFT, // TODO: Update for horizontal positioning
 			},
 			preventLoopNavigation: true,
 			recomputeSizes: false,
@@ -132,6 +148,11 @@ export class ActivitybarPart extends Part {
 		const borderColor = this.getColor(ACTIVITY_BAR_BORDER) || this.getColor(contrastBorder) || '';
 		container.classList.toggle('bordered', !!borderColor);
 		container.style.borderColor = borderColor ? borderColor : '';
+		
+		// TODO: CmdShift - Add horizontal layout styling here
+		// 1. Apply different border styles for horizontal orientation
+		// 2. Set appropriate border-top or border-bottom based on position
+		// 3. Add CSS class like 'horizontal' when in horizontal mode
 	}
 
 	show(focus?: boolean): void {
@@ -176,6 +197,11 @@ export class ActivitybarPart extends Part {
 		const contentAreaSize = super.layoutContents(width, height).contentSize;
 
 		// Layout composite bar
+		// TODO: CmdShift - Implement horizontal layout calculations here
+		// For horizontal orientation:
+		// - Pass contentAreaSize.width instead of width
+		// - Pass height instead of contentAreaSize.height
+		// - Consider menubar and global bar positioning
 		this.compositeBar.value.layout(width, contentAreaSize.height);
 	}
 
@@ -290,6 +316,12 @@ export class ActivityBarCompositeBar extends PaneCompositeBar {
 	private registerKeyboardNavigationListeners(): void {
 		this.keyboardNavigationDisposables.clear();
 
+		// TODO: CmdShift - Update keyboard navigation for horizontal layout
+		// When horizontal:
+		// - Left/Right arrows navigate between activity items
+		// - Up/Down arrows move to/from menubar and main content
+		// Current implementation assumes vertical layout
+
 		// Up/Down or Left/Right arrow on compact menu
 		if (this.menuBarContainer) {
 			this.keyboardNavigationDisposables.add(addDisposableListener(this.menuBarContainer, EventType.KEY_DOWN, e => {
@@ -304,6 +336,7 @@ export class ActivityBarCompositeBar extends PaneCompositeBar {
 		if (this.compositeBarContainer) {
 			this.keyboardNavigationDisposables.add(addDisposableListener(this.compositeBarContainer, EventType.KEY_DOWN, e => {
 				const kbEvent = new StandardKeyboardEvent(e);
+				// TODO: CmdShift - Swap arrow key handling for horizontal orientation
 				if (kbEvent.equals(KeyCode.DownArrow) || kbEvent.equals(KeyCode.RightArrow)) {
 					this.globalCompositeBar?.focus();
 				} else if (kbEvent.equals(KeyCode.UpArrow) || kbEvent.equals(KeyCode.LeftArrow)) {
@@ -316,6 +349,7 @@ export class ActivityBarCompositeBar extends PaneCompositeBar {
 		if (this.globalCompositeBar) {
 			this.keyboardNavigationDisposables.add(addDisposableListener(this.globalCompositeBar.element, EventType.KEY_DOWN, e => {
 				const kbEvent = new StandardKeyboardEvent(e);
+				// TODO: CmdShift - Update for horizontal navigation
 				if (kbEvent.equals(KeyCode.UpArrow) || kbEvent.equals(KeyCode.LeftArrow)) {
 					this.focus(this.getVisiblePaneCompositeIds().length - 1);
 				}
@@ -346,6 +380,12 @@ export class ActivityBarCompositeBar extends PaneCompositeBar {
 	}
 
 	override layout(width: number, height: number): void {
+		// TODO: CmdShift - This method already handles horizontal/vertical orientation!
+		// Key observation: The orientation logic is already partially implemented
+		// We need to ensure:
+		// 1. The menubar container positions correctly for horizontal layout
+		// 2. The global composite bar adjusts its layout for horizontal orientation
+		// 3. The action items flow horizontally instead of vertically
 		if (this.menuBarContainer) {
 			if (this.options.orientation === ActionsOrientation.VERTICAL) {
 				height -= this.menuBarContainer.clientHeight;
@@ -357,6 +397,8 @@ export class ActivityBarCompositeBar extends PaneCompositeBar {
 			if (this.options.orientation === ActionsOrientation.VERTICAL) {
 				height -= (this.globalCompositeBar.size() * ActivitybarPart.ACTION_HEIGHT);
 			} else {
+				// TODO: CmdShift - Verify this calculation for horizontal layout
+				// May need to use ACTION_WIDTH instead of clientWidth
 				width -= this.globalCompositeBar.element.clientWidth;
 			}
 		}

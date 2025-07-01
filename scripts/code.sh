@@ -17,7 +17,9 @@ function code() {
 	cd "$ROOT"
 
 	if [[ "$OSTYPE" == "darwin"* ]]; then
-		NAME=`node -p "require('./product.json').nameLong"`
+		# Temporary fix: Use actual built app name instead of product.json value
+		# NAME=`node -p "require('./product.json').nameLong"`
+		NAME="Code - OSS"
 		CODE="./.build/electron/$NAME.app/Contents/MacOS/Electron"
 	else
 		NAME=`node -p "require('./product.json').applicationName"`

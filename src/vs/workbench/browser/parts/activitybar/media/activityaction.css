@@ -3,6 +3,16 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/*
+ * TODO: CmdShift - CSS for horizontal activity bar action items
+ * When implementing horizontal layout:
+ * 1. Change display from block to inline-block for horizontal flow
+ * 2. Update drag indicators from top/bottom to left/right
+ * 3. Adjust active indicator from left border to top/bottom border
+ * 4. Update badge positioning for horizontal layout
+ * 5. Consider new dimensions and spacing between items
+ */
+
 .monaco-workbench .activitybar > .content :not(.monaco-menu) > .monaco-action-bar .action-item {
 	display: block;
 	position: relative;
@@ -106,6 +116,17 @@
 	width: 0;
 	border-left: 2px solid;
 }
+
+/* TODO: CmdShift - Horizontal active indicator styles
+.monaco-workbench .activitybar.horizontal > .content :not(.monaco-menu) > .monaco-action-bar .action-item.checked .active-item-indicator:before,
+.monaco-workbench .activitybar.horizontal > .content :not(.monaco-menu) > .monaco-action-bar .action-item:focus .active-item-indicator:before {
+	left: 0;
+	width: 100%;
+	height: 0;
+	border-left: none;
+	border-bottom: 2px solid;
+}
+*/
 
 .monaco-workbench .activitybar > .content :not(.monaco-menu) > .monaco-action-bar .action-item.checked .active-item-indicator:before {
 	top: 0;

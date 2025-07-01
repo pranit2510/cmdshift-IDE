@@ -1763,6 +1763,13 @@ export abstract class Layout extends Disposable implements IWorkbenchLayoutServi
 		const preMoveSideBarSize = !this.isVisible(Parts.SIDEBAR_PART) ? Sizing.Invisible(this.workbenchGrid.getViewCachedVisibleSize(this.sideBarPartView) ?? this.sideBarPartView.minimumWidth) : this.workbenchGrid.getViewSize(this.sideBarPartView).width;
 		const preMoveAuxiliaryBarSize = !this.isVisible(Parts.AUXILIARYBAR_PART) ? Sizing.Invisible(this.workbenchGrid.getViewCachedVisibleSize(this.auxiliaryBarPartView) ?? this.auxiliaryBarPartView.minimumWidth) : this.workbenchGrid.getViewSize(this.auxiliaryBarPartView).width;
 
+		// TODO: CmdShift - Add Position.TOP support for horizontal activity bar
+		// This section currently only handles LEFT/RIGHT positioning
+		// For Position.TOP:
+		// 1. Move activity bar to top row of grid (e.g., [0, 1] or similar)
+		// 2. Adjust sidebar positioning to account for horizontal activity bar
+		// 3. Update grid coordinates for all affected parts
+		// 4. Consider title bar interaction when activity bar is at top
 		if (sideBarPosition === Position.LEFT) {
 			this.workbenchGrid.moveViewTo(this.activityBarPartView, [2, 0]);
 			this.workbenchGrid.moveView(this.sideBarPartView, preMoveSideBarSize, sideBarSiblingToEditor ? this.editorPartView : this.activityBarPartView, sideBarSiblingToEditor ? Direction.Left : Direction.Right);
@@ -2224,6 +2231,12 @@ export abstract class Layout extends Disposable implements IWorkbenchLayoutServi
 	}
 
 	private arrangeMiddleSectionNodes(nodes: { editor: ISerializedNode; panel: ISerializedNode; activityBar: ISerializedNode; sideBar: ISerializedNode; auxiliaryBar: ISerializedNode }, availableWidth: number, availableHeight: number): ISerializedNode[] {
+		// TODO: CmdShift - Implement horizontal activity bar layout here
+		// When ActivityBarPosition.TOP is set:
+		// 1. Activity bar should be arranged horizontally across the top
+		// 2. Return a different node structure with activity bar as a separate row
+		// 3. Adjust available height for other components
+		// 4. Consider new grid structure: [activityBar] above [sideBar | editor | auxiliaryBar]
 		const activityBarSize = this.stateModel.getRuntimeValue(LayoutStateKeys.ACTIVITYBAR_HIDDEN) ? 0 : nodes.activityBar.size;
 		const sideBarSize = this.stateModel.getRuntimeValue(LayoutStateKeys.SIDEBAR_HIDDEN) ? 0 : nodes.sideBar.size;
 		const auxiliaryBarSize = this.stateModel.getRuntimeValue(LayoutStateKeys.AUXILIARYBAR_HIDDEN) ? 0 : nodes.auxiliaryBar.size;

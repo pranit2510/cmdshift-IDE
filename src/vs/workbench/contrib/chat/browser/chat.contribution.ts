@@ -13,7 +13,7 @@ import { InstantiationType, registerSingleton } from 'vs/platform/instantiation/
 import { IInstantiationService } from 'vs/platform/instantiation/common/instantiation';
 import { Registry } from 'vs/platform/registry/common/platform';
 import { EditorPaneDescriptor, IEditorPaneRegistry } from 'vs/workbench/browser/editor';
-import { IWorkbenchContributionsRegistry, Extensions as WorkbenchExtensions } from 'vs/workbench/common/contributions';
+import { IWorkbenchContribution, IWorkbenchContributionsRegistry, Extensions as WorkbenchExtensions } from 'vs/workbench/common/contributions';
 import { EditorExtensions, IEditorFactoryRegistry } from 'vs/workbench/common/editor';
 import { registerChatActions } from 'vs/workbench/contrib/chat/browser/actions/chatActions';
 import { registerChatCodeBlockActions } from 'vs/workbench/contrib/chat/browser/actions/chatCodeblockActions';
@@ -58,6 +58,10 @@ import { ChatAgentService, IChatAgentService } from 'vs/workbench/contrib/chat/c
 import { ChatVariablesService } from 'vs/workbench/contrib/chat/browser/chatVariables';
 import { chatAgentLeader, chatSubcommandLeader } from 'vs/workbench/contrib/chat/common/chatParserTypes';
 import { CancellationToken } from 'vs/base/common/cancellation';
+import { CmdShiftChatProvider } from 'vs/workbench/contrib/chat/browser/cmdshiftChatProvider';
+import { registerCmdShiftChatAgent } from 'vs/workbench/contrib/chat/browser/cmdshiftChatAgent';
+
+console.log('[CMDSHIFT] chat.contribution.ts loaded');
 
 // Register configuration
 const configurationRegistry = Registry.as<IConfigurationRegistry>(ConfigurationExtensions.Configuration);
@@ -280,10 +284,40 @@ class ChatSlashStaticSlashCommandsContribution extends Disposable {
 	}
 }
 
+class CmdShiftChatProviderContribution extends Disposable implements IWorkbenchContribution {
+	constructor(
+		@IChatService private readonly chatService: IChatService,
+		@IChatAgentService private readonly chatAgentService: IChatAgentService,
+	) {
+		super();
+		console.log('[CMDSHIFT] CmdShiftChatProviderContribution constructor called');
+		
+		try {
+			// Register the CmdShift AI provider
+			console.log('[CMDSHIFT] About to register provider');
+			console.log('[CMDSHIFT] Current providers:', this.chatService.getProviderInfos());
+			const provider = new CmdShiftChatProvider();
+			this._store.add(this.chatService.registerProvider(provider));
+			console.log('[CMDSHIFT] Provider registered successfully');
+			console.log('[CMDSHIFT] Providers after registration:', this.chatService.getProviderInfos());
+			
+			// Register the CmdShift AI agent
+			console.log('[CMDSHIFT] About to register agent');
+			this._store.add(registerCmdShiftChatAgent(this.chatAgentService));
+			console.log('[CMDSHIFT] Agent registered successfully');
+		} catch (error) {
+			console.error('[CMDSHIFT] Error during registration:', error);
+		}
+	}
+}
+
 const workbenchContributionsRegistry = Registry.as<IWorkbenchContributionsRegistry>(WorkbenchExtensions.Workbench);
+console.log('[CMDSHIFT] Registering contributions');
 workbenchContributionsRegistry.registerWorkbenchContribution(ChatResolverContribution, LifecyclePhase.Starting);
 workbenchContributionsRegistry.registerWorkbenchContribution(ChatAccessibleViewContribution, LifecyclePhase.Eventually);
 workbenchContributionsRegistry.registerWorkbenchContribution(ChatSlashStaticSlashCommandsContribution, LifecyclePhase.Eventually);
+console.log('[CMDSHIFT] Registering CmdShiftChatProviderContribution');
+workbenchContributionsRegistry.registerWorkbenchContribution(CmdShiftChatProviderContribution, LifecyclePhase.Starting);
 Registry.as<IEditorFactoryRegistry>(EditorExtensions.EditorFactory).registerEditorSerializer(ChatEditorInput.TypeID, ChatEditorInputSerializer);
 
 registerChatActions();

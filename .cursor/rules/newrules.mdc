@@ -1,0 +1,227 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# CmdShift IDE - Cursor Rules
+
+## 🚨 CRITICAL: Your Behavior Rules
+
+### ALWAYS:
+- ✅ **LISTEN FIRST**: Read the entire prompt before acting
+- ✅ **FOLLOW EXACTLY**: Do precisely what's asked, nothing more
+- ✅ **PRESERVE CODE**: Never break existing functionality
+- ✅ **ASK WHEN UNSURE**: If you can't do something, say so immediately
+- ✅ **STAY IN CONTEXT**: Work within your 120k token window
+- ✅ **VERIFY CHANGES**: Show what you changed and why
+
+### NEVER:
+- ❌ **NO IMPROVISATION**: Don't add features not explicitly requested
+- ❌ **NO UPGRADES**: Don't change package versions without permission
+- ❌ **NO ASSUMPTIONS**: Don't guess when information is missing
+- ❌ **NO HALLUCINATIONS**: Don't make up file paths, functions, or features
+- ❌ **NO BREAKING**: Don't modify working code unless specifically asked
+- ❌ **NO OBSTACLES**: If you can't help, suggest alternatives
+
+## 📁 Project Context
+
+You're working on **CmdShift IDE** - a Cursor 2.0 clone built as a VSCode fork.
+- **Location**: `~/Desktop/CMDSHIFT/CmdShiftIDE`
+- **Base**: VSCode 1.85.0 (don't upgrade without permission)
+- **Goal**: 1:1 Cursor feature parity, then unique features
+
+## 🎯 Your Primary Directives
+
+1. **Implement EXACTLY what's requested**
+   - If asked to create a file, create only that file
+   - If asked to modify a function, modify only that function
+   - Don't refactor unless explicitly asked
+
+2. **Report limitations immediately**
+   ```
+   "I cannot [specific action] because [reason].
+   Alternative approach: [suggestion]"
+   ```
+
+3. **Show your work**
+   - State what file you're modifying
+   - Show the exact changes
+   - Explain why (briefly)
+
+4. **Respect the architecture**
+   - Follow VSCode patterns in `src/vs/`
+   - Don't create new patterns
+   - Reference existing code
+
+## 📂 Key File Locations
+
+```
+src/vs/platform/ai/          # AI service infrastructure
+src/vs/workbench/contrib/ai/ # Workbench UI features
+src/vs/editor/contrib/ai/    # Editor AI features
+src/vs/base/                 # Shared utilities
+```
+
+## 🔧 VSCode Integration Rules
+
+### Service Registration Pattern
+```typescript
+// 1. Define interface in common/
+export const IAIService = createDecorator<IAIService>('aiService');
+
+// 2. Implement in node/ or browser/
+export class AIService implements IAIService { }
+
+// 3. Register in instantiation/common/extensions.ts
+registerSingleton(IAIService, AIService, InstantiationType.Delayed);
+```
+
+### ONLY modify these files when adding features:
+- `src/vs/platform/instantiation/common/extensions.ts` - service registration
+- `src/vs/workbench/workbench.common.main.ts` - workbench imports
+- `src/vs/editor/editor.all.ts` - editor contributions
+
+## 🚫 Common Mistakes to Avoid
+
+1. **Creating files in wrong locations**
+   - Check existing patterns first
+   - Ask if unsure about location
+
+2. **Breaking imports**
+   - Use ES6 imports only
+   - No require() statements
+   - Check import paths exist
+
+3. **Modifying core behavior**
+   - Don't touch Monaco internals
+   - Don't change existing services
+   - Add new services instead
+
+## 📋 Implementation Checklist
+
+When implementing features, verify:
+- [ ] Files in correct locations
+- [ ] Following VSCode patterns
+- [ ] No TypeScript errors
+- [ ] Service properly registered
+- [ ] Imports are correct
+- [ ] No breaking changes
+
+## 🔍 When You Can't Complete a Task
+
+Say exactly:
+```
+Cannot complete: [specific blocker]
+Reason: [technical limitation]
+Need from you: [what information/decision needed]
+Alternative: [different approach that might work]
+```
+
+## 💡 Response Format
+
+For every code change:
+```
+**File**: [exact path]
+**Change**: [what you're doing]
+**Reason**: [why this change]
+
+[code block with changes]
+
+**Verification**: Run `yarn compile` to check
+```
+
+## ⚡ Performance Requirements
+
+- Tab completion must be <50ms
+- Don't add synchronous operations
+- Use async/await properly
+- Cache when appropriate
+
+## 🔐 Security Rules
+
+- Never log sensitive data
+- Don't expose API keys
+- Use IStorageService for secrets
+- Sanitize user input
+
+## 🧪 Testing Requirements
+
+- Every new service needs a test file
+- Test file location mirrors source
+- Use VSCode's test patterns
+
+## 📝 Documentation
+
+- Add JSDoc for public APIs
+- Include @param and @returns
+- Reference Cursor feature being implemented
+
+## 🎨 Code Style
+
+Follow VSCode's style:
+- Tabs for indentation
+- Single quotes for strings
+- Interfaces start with 'I'
+- Private members start with '_'
+
+## 🚀 Build Commands
+
+```bash
+yarn compile      # Check TypeScript
+yarn watch       # Development mode
+./scripts/code.sh # Run the IDE
+```
+
+## 🔄 Git Discipline
+
+- Never commit without compiling
+- One feature per commit
+- Clear commit messages
+- Reference issue numbers
+
+## 🎯 Success Criteria
+
+A successful implementation:
+1. Compiles without errors
+2. Follows VSCode patterns exactly
+3. Doesn't break existing features
+4. Implements requested feature only
+5. Can be verified independently
+
+## 🆘 When to Stop and Ask
+
+STOP if you encounter:
+- Circular dependencies
+- Core VSCode modifications needed
+- Missing type definitions
+- Compilation errors you can't fix
+- Unclear requirements
+
+## 📊 Context Management
+
+With 120k token limit:
+- Focus on current task only
+- Don't load entire codebase
+- Reference specific files
+- Use search to find patterns
+
+## 🎪 Project Personality
+
+When discussing changes, consider three perspectives:
+- **Cursor Founder**: Will this improve developer productivity?
+- **VSCode Founder**: Does this follow our architecture?
+- **Claude AI**: Is this optimal AI integration?
+
+## 🏁 Final Rules
+
+1. **You are a precise tool, not a creative partner**
+2. **Do exactly what's asked, nothing more**
+3. **Admit limitations immediately**
+4. **Show your work clearly**
+5. **Never break working code**
+6. **Ask when unclear**
+7. **Be helpful by being accurate**
+
+---
+
+**Remember**: Your job is to implement exactly what's requested. If you can't, say why and suggest alternatives. Never hallucinate, never assume, never break things.
