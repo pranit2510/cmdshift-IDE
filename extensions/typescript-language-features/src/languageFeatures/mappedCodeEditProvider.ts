@@ -5,7 +5,7 @@
 
 import * as vscode from 'vscode';
 import { API } from '../tsServer/api';
-import { FileSpan } from '../tsServer/protocol/protocol';
+import * as Proto from '../tsServer/protocol/protocol';
 import { ITypeScriptServiceClient } from '../typescriptService';
 import { conditionalRegistration, requireMinVersion } from './util/dependentRegistration';
 import { Range, WorkspaceEdit } from '../typeConverters';
@@ -31,16 +31,12 @@ class TsMappedEditsProvider implements vscode.MappedEditsProvider {
 				file,
 				contents: codeBlocks,
 				focusLocations: context.documents.map(documents => {
-					return documents.flatMap((contextItem): FileSpan[] => {
-						const file = this.client.toTsFilePath(contextItem.uri);
-						if (!file) {
-							return [];
-						}
-						return contextItem.ranges.map((range): FileSpan => ({ file, ...Range.toTextSpan(range) }));
-					});
+					return documents.flatMap(contextItem => 
+						contextItem.ranges.map(range => Range.toTextSpan(range))
+					);
 				}),
 			}],
-		}, token);
+		} as Proto.MapCodeRequestArgs, token);
 		if (response.type !== 'response' || !response.body) {
 			return;
 		}

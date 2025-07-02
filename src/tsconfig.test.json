@@ -1,0 +1,15 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		// Relax strictness for test files
+		"strictPropertyInitialization": false,
+		"strictNullChecks": false,
+		"noImplicitAny": false,
+		"noUnusedLocals": false,
+		"allowUnreachableCode": true
+	},
+	"include": [
+		"./vs/**/*.test.ts",
+		"./vs/**/test/**/*.ts"
+	]
+}

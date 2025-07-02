@@ -357,7 +357,8 @@ class TaskDetector {
 		if (this.detectors.size === 0) {
 			return Promise.resolve([]);
 		} else if (this.detectors.size === 1) {
-			return this.detectors.values().next().value.getTasks();
+			const detector = this.detectors.values().next().value;
+			return detector ? detector.getTasks() : Promise.resolve([]);
 		} else {
 			const promises: Promise<vscode.Task[]>[] = [];
 			for (const detector of this.detectors.values()) {
@@ -379,7 +380,8 @@ class TaskDetector {
 		if (this.detectors.size === 0) {
 			return undefined;
 		} else if (this.detectors.size === 1) {
-			return this.detectors.values().next().value.getTask(task);
+			const detector = this.detectors.values().next().value;
+			return detector ? detector.getTask(task) : undefined;
 		} else {
 			if ((task.scope === vscode.TaskScope.Workspace) || (task.scope === vscode.TaskScope.Global)) {
 				// Not supported, we don't have enough info to create the task.

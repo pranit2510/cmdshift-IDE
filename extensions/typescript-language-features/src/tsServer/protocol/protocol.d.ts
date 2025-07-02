@@ -44,16 +44,16 @@ declare module 'typescript/lib/tsserverlibrary' {
 			/// priority: toplevel arrays are more important than inner arrays, and
 			/// inner array priorities are based on items within that array. Items
 			/// earlier in the arrays have higher priority.
-			focusLocations?: FileSpan[][];
+			focusLocations?: TextSpan[][];
 		}
 
 		export interface MapCodeRequest extends Request {
-			command: 'mapCode',
+			command: CommandTypes.MapCode,
 			arguments: MapCodeRequestArgs;
 		}
 
 		export interface MapCodeResponse extends Response {
-			body: FileCodeEdits[]
+			body: readonly FileCodeEdits[]
 		}
 	}
 }

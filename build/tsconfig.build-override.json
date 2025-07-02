@@ -1,0 +1,14 @@
+{
+	"extends": "../src/tsconfig.json",
+	"compilerOptions": {
+		// Override settings for build process
+		"noEmitOnError": false,
+		"noUnusedParameters": false,
+		"noImplicitReturns": false,
+		"noUnusedLocals": false,
+		"allowUnreachableCode": true,
+		"strictPropertyInitialization": false,
+		"skipLibCheck": true,
+		"suppressImplicitAnyIndexErrors": true
+	}
+}
